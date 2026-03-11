@@ -6,25 +6,27 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 
 export const Login = () => {
-  const [emailId, setEmailId] = useState("arjun.nair@gmail.com");
-  const [password, setPassword] = useState("Ar@8Na!4");
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState(""); // <-- For showing invalid credentials
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMsg(""); // reset error on submit
 
     try {
-      const response = await axios.post(BASE_URL+"login",
+      const response = await axios.post(
+        `${BASE_URL}login`, // <-- Make sure endpoint is 'login', not 'logout'
         { email: emailId, password },
-      {
-        withCredentials : true
-      });
-      console.log("Login success:", response?.data);
+        { withCredentials: true }
+      );
       dispatch(addUser(response?.data?.user));
-      navigate('/')
+      navigate("/");
     } catch (error) {
-      console.error("Login failed:", error.response?.data || error.message);
+      // Show friendly error
+      setErrorMsg(error.response?.data?.message || "Invalid email or password");
     }
   };
 
@@ -69,6 +71,13 @@ export const Login = () => {
               className="mt-2 block w-full rounded-md bg-gray-600 px-3 py-2 text-white placeholder:text-gray-300 focus:outline-indigo-400"
             />
           </div>
+
+          {/* Error message */}
+          {errorMsg && (
+            <p className="text-red-600  px-3 py-2 rounded mt-2 text-sm">
+              {errorMsg}
+            </p>
+          )}
 
           <button
             type="submit"
