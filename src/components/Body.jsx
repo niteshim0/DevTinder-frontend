@@ -17,9 +17,8 @@ export const Body = () => {
       const res = await axios.get(BASE_URL + "profile/view", {
         withCredentials: true,
       });
-      console.log(res);
       dispatch(addUser(res?.data));
-      // move to feed section
+      navigate('/feed')
     } catch (error) {
       console.log("User not logged in");
       if(error.status === 404){

@@ -60,13 +60,14 @@ export const Navbar = () => {
             tabIndex={0}
             role="button"
             className="btn btn-ghost btn-circle avatar"
-          >
+          >{ user && (
             <div className="w-10 rounded-full">
               <img
-                src={user?.profilePhoto || "https://i.pravatar.cc/100"}
+                src={user?.profilePhoto}
                 alt="profile"
               />
-            </div>
+            </div>)
+           }
           </div>
 
           <ul
