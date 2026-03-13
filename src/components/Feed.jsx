@@ -43,7 +43,6 @@ export const Feed = () => {
   }, []);
 
   if (!feed || feed.length === 0) return <div>Loading...</div>;
-  console.log(feed);
   return (
   <div className="flex justify-center">
     <div className="mt-30 mb-240">

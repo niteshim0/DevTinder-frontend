@@ -1,4 +1,4 @@
-export const Card = ({ name, bio, profilePhoto, isProfileComplete }) => (
+export const Card = ({ name, bio, profilePhoto}) => (
   <div className="card bg-base-100 image-full w-96 shadow-sm">
     <figure>
       <img src={profilePhoto} alt={name} />

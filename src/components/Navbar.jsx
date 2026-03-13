@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { removeUser } from "../redux/slices/userSlice";
 import { BASE_URL } from "../utils/constants";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   const dispatch = useDispatch();
@@ -74,7 +75,7 @@ export const Navbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-40"
           >
-            <li><a>Profile</a></li>
+            <li><Link to="/profile">Profile</Link></li>
             <li><a>My Projects</a></li>
             <li><a>Create Project</a></li>
             <li><a>Settings</a></li>

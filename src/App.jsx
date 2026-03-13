@@ -3,6 +3,7 @@ import { Login } from "./components/Login"
 import { Profile } from "./components/Profile"
 import { Body } from "./components/Body"
 import { Feed } from "./components/Feed"
+import { EditProfile } from "./components/EditProfile"
 function App() {
   return (
     <>
@@ -12,6 +13,7 @@ function App() {
             <Route path = "/login" element = {<Login/>}></Route>
             <Route path = "/profile" element = {<Profile/>}></Route>
             <Route path = "/feed" element = {<Feed/>}></Route>
+            <Route path = "/editProfile" element = {<EditProfile/>}></Route>
         </Route>
       </Routes>
      </BrowserRouter>
