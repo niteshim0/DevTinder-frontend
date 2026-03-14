@@ -47,7 +47,7 @@ export const Navbar = () => {
       <div className="navbar-end gap-2">
         {/* Menu items */}
         <ul className="menu menu-horizontal px-1">
-          <li><a className="hover:text-primary">Explore</a></li>
+          <li><a className="hover:text-primary">Feed</a></li>
           <li><a className="hover:text-primary">Projects</a></li>
         </ul>
 

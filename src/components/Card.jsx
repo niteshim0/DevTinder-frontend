@@ -1,18 +1,63 @@
-export const Card = ({ name, bio, profilePhoto}) => (
-  <div className="card bg-base-100 image-full w-96 shadow-sm">
-    <figure>
-      <img src={profilePhoto} alt={name} />
-    </figure>
+export const Card = ({ user, preview = false }) => {
 
-    <div className="card-body flex flex-col">
-      <h2 className="card-title">{name}</h2>
+  if (!user) return null;
 
-       <p>{bio}</p>
+  return (
+    <div className="card bg-base-100 w-96 shadow-xl">
 
-      <div className="card-actions justify-center mt-auto gap-4">
-        <button className="btn btn-primary">Left Swipe</button>
-        <button className="btn btn-secondary">Right Swipe</button>
+      {/* PROFILE IMAGE */}
+      <figure >
+       <img
+          src={user?.profilePhoto}
+          alt={user?.name}
+          className={`object-cover ${preview ? "h-32 w-32 rounded-full m-auto" : "h-60 w-full"}`}
+        />
+      </figure>
+
+      {/* BODY */}
+      <div className="card-body">
+
+        <h2 className="card-title justify-center">{user?.name}</h2>
+
+        {user?.bio && <p>{user?.bio}</p>}
+
+        {preview && (
+          <>
+            <p>
+              <span className="font-semibold">📈 :</span>{" "}
+              {user?.experienceLevel}
+            </p>
+
+            <p>
+              <span className="font-semibold">📍:</span>{" "}
+              {user?.location}
+            </p>
+
+            <div>
+              <span className="font-semibold">🛠:</span>
+              <div className="flex flex-wrap gap-2 mt-1">
+                {user?.skills?.map((skill, index) => (
+                  <span
+                    key={index}
+                    className="badge badge-outline"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* SWIPE BUTTONS ONLY WHEN NOT PREVIEW */}
+        {!preview && (
+          <div className="card-actions justify-center mt-4 gap-4">
+            <button className="btn btn-primary">Left Swipe</button>
+            <button className="btn btn-secondary">Right Swipe</button>
+          </div>
+        )}
+
       </div>
     </div>
-  </div>
-);
+  );
+};

@@ -46,7 +46,8 @@ export const Feed = () => {
   return (
   <div className="flex justify-center">
     <div className="mt-30 mb-240">
-      <Card {...feed[index]} />
+      
+      <Card user={feed[index]} />
 
       <div className="flex justify-center gap-6 mt-4">
         <button
@@ -63,7 +64,6 @@ export const Feed = () => {
           Next
         </button>
       </div>
-
     </div>
   </div>
 );
