@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export const Profile = () => {
   const user = useSelector((store) => store.user);
-
+  const connection = useSelector((store) => store.connection);
 
   return (
     <div className="flex flex-col items-center mt-20 mb-20 gap-10">
@@ -30,7 +30,8 @@ export const Profile = () => {
           
           <div className="mt-4 flex justify-center gap-6">
           <p className="mt-4 badge badge-primary badge-lg">
-            Connections: {user?.connections?.length || 0}
+            Connections: {connection?.length || 0}
+            {console.log(user)}
           </p>
           <p className="mt-4 badge badge-primary badge-lg">
             <Link to="/editProfile">Edit Profile</Link>
