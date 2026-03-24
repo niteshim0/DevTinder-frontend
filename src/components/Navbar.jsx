@@ -77,8 +77,7 @@ export const Navbar = () => {
           >
             <li><Link to="/profile">Profile</Link></li>
             <li><a>My Projects</a></li>
-            <li><a>Create Project</a></li>
-            <li><a>Settings</a></li>
+            <li><Link to="/connections">Connections</Link></li>
             {/* ✅ Corrected logout button */}
             <li>
               <button

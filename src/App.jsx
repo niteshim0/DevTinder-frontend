@@ -4,6 +4,7 @@ import { Profile } from "./components/Profile"
 import { Body } from "./components/Body"
 import { Feed } from "./components/Feed"
 import { EditProfile } from "./components/EditProfile"
+import { Connections } from "./components/Connections"
 function App() {
   return (
     <>
@@ -14,6 +15,7 @@ function App() {
             <Route path = "/profile" element = {<Profile/>}></Route>
             <Route path = "/feed" element = {<Feed/>}></Route>
             <Route path = "/editProfile" element = {<EditProfile/>}></Route>
+            <Route path = "/connections" element = {<Connections/>}></Route>
         </Route>
       </Routes>
      </BrowserRouter>
