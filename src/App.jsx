@@ -5,6 +5,7 @@ import { Body } from "./components/Body"
 import { Feed } from "./components/Feed"
 import { EditProfile } from "./components/EditProfile"
 import { Connections } from "./components/Connections"
+import { Requests } from "./components/Requests"
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
             <Route path = "/feed" element = {<Feed/>}></Route>
             <Route path = "/editProfile" element = {<EditProfile/>}></Route>
             <Route path = "/connections" element = {<Connections/>}></Route>
+            <Route path = "/requests" element = {<Requests/>}></Route>
         </Route>
       </Routes>
      </BrowserRouter>
