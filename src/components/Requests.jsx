@@ -26,10 +26,9 @@ export const Requests = () => {
       );
 
       const data = res?.data?.pendingRequests || [];
-      dispatch(addRequest(data)); 
+      dispatch(addRequest(data));
 
       setError(null);
-
     } catch (err) {
       const msg =
         err.response?.status === 401
@@ -44,7 +43,6 @@ export const Requests = () => {
       setToastMsg(msg);
       setShowToast(true);
       setTimeout(() => setShowToast(false), 2000);
-
     } finally {
       setLoading(false);
     }
@@ -54,7 +52,6 @@ export const Requests = () => {
     fetchRequests();
   }, []);
 
- 
   const handleAction = async (id, type) => {
     if (actionLoading) return;
 
@@ -68,7 +65,7 @@ export const Requests = () => {
       );
 
       const updated = requests.filter((r) => r._id !== id);
-      dispatch(addRequest(updated)); 
+      dispatch(addRequest(updated));
 
       setIsError(false);
       setToastMsg(
@@ -78,7 +75,6 @@ export const Requests = () => {
       );
       setShowToast(true);
       setTimeout(() => setShowToast(false), 2000);
-
     } catch (err) {
       const msg = "Action failed, try again";
 
@@ -87,7 +83,6 @@ export const Requests = () => {
       setToastMsg(msg);
       setShowToast(true);
       setTimeout(() => setShowToast(false), 2000);
-
     } finally {
       setActionLoading(null);
     }
@@ -95,21 +90,15 @@ export const Requests = () => {
 
   return (
     <>
-      
       {showToast && (
         <div className="toast toast-top toast-center z-50">
-          <div
-            className={`alert ${
-              isError ? "alert-error" : "alert-success"
-            }`}
-          >
+          <div className={`alert ${isError ? "alert-error" : "alert-success"}`}>
             <span>{toastMsg}</span>
           </div>
         </div>
       )}
 
       <div className="p-4 max-w-md mx-auto">
-
         <h2 className="text-center mb-4 text-xl font-semibold">
           Requests
         </h2>
@@ -123,9 +112,7 @@ export const Requests = () => {
         </button>
 
         {/* Loading */}
-        {loading && (
-          <p className="text-center">Loading...</p>
-        )}
+        {loading && <p className="text-center">Loading...</p>}
 
         {/* Error */}
         {error && !showToast && (
@@ -145,7 +132,7 @@ export const Requests = () => {
             {requests.map((request) => (
               <div
                 key={request._id}
-                className = "flex items-center justify-between gap-6 p-4 rounded-2xl bg-gray-700 hover:bg-gray-600 transition shadow-md"
+                className="flex items-center justify-between gap-6 p-4 rounded-2xl bg-gray-700 hover:bg-gray-600 transition shadow-md"
               >
                 {/* Profile */}
                 <div className="flex items-center gap-5">
@@ -162,16 +149,16 @@ export const Requests = () => {
 
                   <div>
                     <p className="font-semibold text-base text-white">
-  {request?.senderId?.name || "Unknown User"}
-</p>
+                      {request?.senderId?.name || "Unknown User"}
+                    </p>
 
-<p className="text-sm text-gray-300">
-  {request?.senderId?.experienceLevel || "N/A"}
-</p>
+                    <p className="text-sm text-gray-300">
+                      {request?.senderId?.experienceLevel || "N/A"}
+                    </p>
 
-<p className="text-xs text-gray-400 max-w-xs truncate">
-  {request?.senderId?.bio || "No bio available"}
-</p>
+                    <p className="text-xs text-gray-400 max-w-xs truncate">
+                      {request?.senderId?.bio || "No bio available"}
+                    </p>
                   </div>
                 </div>
 
@@ -184,9 +171,7 @@ export const Requests = () => {
                     disabled={actionLoading === request._id}
                     className="px-3 py-1 text-sm bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:opacity-50"
                   >
-                    {actionLoading === request._id
-                      ? "..."
-                      : "Accept"}
+                    {actionLoading === request._id ? "..." : "Accept"}
                   </button>
 
                   <button
@@ -196,9 +181,7 @@ export const Requests = () => {
                     disabled={actionLoading === request._id}
                     className="px-3 py-1 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 disabled:opacity-50"
                   >
-                    {actionLoading === request._id
-                      ? "..."
-                      : "Reject"}
+                    {actionLoading === request._id ? "..." : "Reject"}
                   </button>
                 </div>
               </div>
