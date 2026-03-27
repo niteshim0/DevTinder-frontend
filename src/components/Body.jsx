@@ -20,7 +20,6 @@ export const Body = () => {
       dispatch(addUser(res?.data));
       navigate('/feed')
     } catch (error) {
-      console.log("User not logged in");
       if(error.status === 404){
         navigate('/login')
       }
