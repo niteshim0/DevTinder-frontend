@@ -51,7 +51,7 @@ export const Requests = () => {
 
   useEffect(() => {
     fetchRequests();
-  }, [dispatch]);
+  }, []);
 
   const handleAction = async (senderId, type) => {
     if (actionLoading) return;
@@ -119,21 +119,15 @@ export const Requests = () => {
           Requests
         </h2>
 
-        {/* Refresh */}
-        <button
-          onClick={fetchRequests}
-          className="text-blue-500 text-sm mb-4"
-        >
-          Refresh
-        </button>
 
         {/* Loading */}
-        {loading && <p className="text-center">Loading...</p>}
+        {loading && <p className="text-center">Loading...</p>}  
+        { /* I will add shimmer ui later on*/}
 
         {/* Error */}
         {error && !showToast && (
           <p className="text-red-500 text-center">{error}</p>
-        )}
+        )} { /*  one component will be desighned for this as well*/}
 
         {/* Empty */}
         {!loading && !error && requests?.length === 0 && (

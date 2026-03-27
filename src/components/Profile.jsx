@@ -106,7 +106,7 @@ export const Profile = () => {
       </div>
 
       {/* PROJECTS SECTION */}
-      <div className="card w-[832px] bg-base-200 shadow-2xl border border-base-300 hover:shadow-indigo-500/20 transition-all p-6">
+      <div className="card w-[832px] bg-base-200 shadow-2xl border border-base-300 hover:shadow-indigo-500/20 transition-all p-6" id="projects">
 
         <h2 className="text-xl font-bold mb-6 text-center text-primary">
           Projects
