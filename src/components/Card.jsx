@@ -1,24 +1,32 @@
-import { useDispatch } from "react-redux";
-import { removeUserFromFeed } from "../redux/slices/feedSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  removeUserFromFeed,
+  insertUserAtIndex,
+} from "../redux/slices/feedSlice";
 import { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
+import { motion } from "framer-motion";
 
-export const Card = ({ user, preview = false, handleRemove }) => {
-  const { _id } = user;
-  const [error, setError] = useState(null);
+export const Card = ({ user, preview = false }) => {
+  const { _id } = user || {};
   const dispatch = useDispatch();
+  const feed = useSelector((store) => store.feed);
 
-  // Optimistic swipe handler
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   const handleSwipes = async (status) => {
-    // Backup in case rollback needed
-    const backupId = _id;
+    if (loading) return;
+
+    const backupUser = user;
+    const index = feed.findIndex((u) => u._id === _id);
+
+    // ✅ Optimistic remove
+    dispatch(removeUserFromFeed(_id));
+    setLoading(true);
 
     try {
-      // Optimistically remove user
-      if (handleRemove) handleRemove(_id);
-
-      // API call
       await axios.post(
         `${BASE_URL}request/send/${status}/${_id}`,
         {},
@@ -26,9 +34,11 @@ export const Card = ({ user, preview = false, handleRemove }) => {
       );
 
       setError(null);
+
     } catch (err) {
-      // Rollback if API fails
-      dispatch(addFeed([user])); // Re-add user to feed
+      // ❌ rollback at same position
+      dispatch(insertUserAtIndex({ user: backupUser, index }));
+
       setError(
         err.response?.status === 401
           ? "Please login first"
@@ -36,46 +46,60 @@ export const Card = ({ user, preview = false, handleRemove }) => {
           ? "Connections not found"
           : "Something went wrong"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   if (!user) return null;
 
   return (
-    <div className="card bg-base-100 w-96 shadow-xl">
-      {/* PROFILE IMAGE */}
+    <motion.div
+      className="card bg-base-100 w-96 shadow-xl"
+      drag={!preview ? "x" : false}
+      dragConstraints={{ left: 0, right: 0 }}
+      onDragEnd={(event, info) => {
+        if (preview || loading) return;
+
+        if (info.offset.x > 120) {
+          handleSwipes("interested"); // 👉 Right swipe
+        } else if (info.offset.x < -120) {
+          handleSwipes("ignored"); // 👉 Left swipe
+        }
+      }}
+      whileTap={{ scale: 0.95 }}
+    >
+      {/* IMAGE */}
       <figure>
         <img
           src={user?.profilePhoto}
           alt={user?.name}
           className={`object-cover ${
-            preview ? "h-32 w-32 rounded-full m-auto" : "h-60 w-full"
+            preview
+              ? "h-32 w-32 rounded-full m-auto"
+              : "h-60 w-full"
           }`}
         />
       </figure>
 
       {/* BODY */}
       <div className="card-body">
-        <h2 className="card-title justify-center">{user?.name}</h2>
+        <h2 className="card-title justify-center">
+          {user?.name}
+        </h2>
 
         {user?.bio && <p>{user?.bio}</p>}
 
         {preview && (
           <>
-            <p>
-              <span className="font-semibold">📈 :</span>{" "}
-              {user?.experienceLevel}
-            </p>
-
-            <p>
-              <span className="font-semibold">📍:</span> {user?.location}
-            </p>
+            <p><b>📈:</b> {user?.experienceLevel}</p>
+            <p><b>📍:</b> {user?.location}</p>
 
             <div>
-              <span className="font-semibold">🛠:</span>
+              <b>🛠:</b>
               <div className="flex flex-wrap gap-2 mt-1">
-                {user?.skills?.map((skill, index) => (
-                  <span key={index} className="badge badge-outline">
+                {user?.skills?.map((skill, i) => (
+                  <span key={i} className="badge badge-outline">
                     {skill}
                   </span>
                 ))}
@@ -84,26 +108,35 @@ export const Card = ({ user, preview = false, handleRemove }) => {
           </>
         )}
 
-        {/* SWIPE BUTTONS ONLY WHEN NOT PREVIEW */}
+        {/* BUTTONS */}
         {!preview && (
           <div className="card-actions justify-center mt-4 gap-4">
             <button
               className="btn btn-primary"
+              disabled={loading}
               onClick={() => handleSwipes("ignored")}
             >
-              Left Swipe
+              ⬅️ Left
             </button>
+
             <button
               className="btn btn-secondary"
+              disabled={loading}
               onClick={() => handleSwipes("interested")}
             >
-              Right Swipe
+              ➡️ Right
             </button>
           </div>
         )}
 
-        {error && <p className="text-red-500 mt-2">{error}</p>}
+        {loading && (
+          <p className="text-blue-500 text-center">Processing...</p>
+        )}
+
+        {error && (
+          <p className="text-red-500 mt-2">{error}</p>
+        )}
       </div>
-    </div>
+    </motion.div>
   );
 };
